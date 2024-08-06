@@ -122,7 +122,18 @@ def get_ip_lan():
         return "eth0: offline"
     except Exception as e:
         return "eth0: offline"
-
+def clear_logs():
+    try:
+        # Comando para limpar /var/log/aprs_direwolf.log
+        subprocess.run(['sudo', 'truncate', '-s', '0', '/var/log/aprs_direwolf.log'], check=True)
+        print("/var/log/aprs_direwolf.log limpo com sucesso.")
+        
+        # Comando para limpar /var/log/direwolf/direwolf.log
+        subprocess.run(['sudo', 'truncate', '-s', '0', '/var/log/direwolf/direwolf.log'], check=True)
+        print("/var/log/direwolf/direwolf.log limpo com sucesso.")
+    
+    except subprocess.CalledProcessError as e:
+        print(f"Erro ao limpar logs: {e}")
 # Função para obter status do serviço direwolf
 def get_direwolf_status():
     try:
@@ -210,4 +221,5 @@ def main():
         time.sleep(5)
 
 if __name__ == "__main__":
+    clear_logs()
     main()
